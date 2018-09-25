@@ -3,9 +3,12 @@
 //echo "See on minu esimene PHP!";
 $firstName = "Johanna Maarja";
 $lastName = "Eller";
-$dateToday = date("d.m.Y");
+$dateToday = date("d");
+$year = date ("Y");
 $weekdayNow = date ("N");
 $weekdayNamesET = ["esmaspäev", "teisipäev", "kolmapäev", "neljapäev", "reede", "laupäev", "pühapäev"];
+$monthNow = date ("m");
+$monthNamesET = ["jaanuar", "veebruar", "märts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember"];
 //echo $weekdayNamesET[1];
 //var_dump ($weekdayNamesET);
 //echo $weekdayNow; 
@@ -53,7 +56,7 @@ $picFile = $picURL .$picNum .$picEXT;
   <?php
   //echo "<p>Tänane kuupäev on: " .$dateToday .".</p> \n";
   //echo "<p> Täna on " .$weekdayNow .", " .$dateToday .".<p> \n";
-  echo "<p> Täna on " .$weekdayNamesET[$weekdayNow - 1] .", " .$dateToday .".<p> \n";
+  echo "<p> Täna on " .$weekdayNamesET[$weekdayNow - 1].", " .$dateToday.". " .$monthNamesET[$monthNow - 1]." " .$year ." .<p> \n";
   echo "<p> Lehe avamise hetkel oli kell " .date("H:i:s") .". Käes oli " .$partOfDay .".</p> \n";
   ?>
   <h2>Vittorio De Sica on öelnud:</h2>
