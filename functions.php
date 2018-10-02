@@ -3,6 +3,29 @@
 //laen andmebaasi info
 require("../../../config.php");
 $database = "if18_johanna_el_1";
+
+//kasutaja loomine
+function signup($firstName, $lastName, $birthDate, $gender, $email, $password){
+	$notice = "";
+	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+	$stmt = $mysqli->prepare("INSERT  INTO vpusers (firstname, lastname, birthdate, gender, email, password) VALUES (?, ?, ?, ?, ?, ?)");
+	echo $mysqli->error;
+	//valmistame parooli ette salvestamiseks - krüpteerime, teeme räsi (hash)
+	$options = [
+	  "cost" => 12, 
+	  "salt" => substr(sha1 (rand()), 0, 22),];
+	$pwdhash = password_hash($password, PASSWORD_BCRYPT, $options);
+	$stmt->bind_param("sssiss", $firstName, $lastName, $birthDate, $gender, $email, $pwdhash);
+	if($stmt->execute()){
+		$notice = "Uue kasutaja lisamine õnnestus!";
+	} else {
+		$notice = "Kasutaja lisamisel tekkis viga: " .$stmt->error;
+	}
+	$stmt->close();
+	$mysqli->close();
+	return $notice;
+}
+
 //anonüümse sõnumi salvestamine
 function saveamsg($msg){
 	$notice = "";
@@ -10,7 +33,7 @@ function saveamsg($msg){
 	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 	//valmistan ette SQL käsu
 	$stmt = $mysqli->prepare("INSERT INTO vpamsg (message) VALUES(?)");
-	echo   $mysqli->error;
+	echo $mysqli->error;
 	//asendame SQL käsus küsimärgi päris infoga (andmetüüp, andmed ise)
 	//s-string; i-integer; d-decimal (murdarv)
 	$stmt->bind_param("s", $msg);
@@ -55,7 +78,7 @@ function test_input($data) {
 	//serveri ühendus (server, kasutaja, parool, andmebaas)
 	$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
 	//valmistan ette SQL käsu
-	$stmt = $mysqli->prepare("INSERT INTO kiisu (nimi, v2rv, saba) VALUES(? ? ?)");
+	$stmt = $mysqli->prepare("INSERT INTO kiisu (nimi, v2rv, saba) VALUES(?, ?, ?)");
 	echo   $mysqli->error;
 	//asendan SQL käsus küsimärgi päris infoga (andmetüübid, andmed)
 	$stmt->bind_param("ssi", $catname, $catcolor, $cattaillenght);

@@ -1,5 +1,4 @@
 <?php
-
  //kutsume välja funktsioonide faili
  require("functions.php");
  $firstName = "Tundmatu";
@@ -7,7 +6,6 @@
  $fullName = "";
  $birthMonth = date ("m");
  $monthNamesET = ["jaanuar", "veebruar", "märts", "aprill", "mai", "juuni", "juuli", "august", "september", "oktoober", "november", "detsember"];
- 
  //kontrollime, kas kasutaja on midagi kirjutanud
  //var_dump($_POST);
 if (isset($_POST["firstName"])){
@@ -55,15 +53,15 @@ if (isset($_POST["firstName"])){
 	<label>Sünnikuu:<label>
 	<select name="birthMonth">
 	<?php
-	    echo '<select name="birthMonth">' ."\n";
+	echo '<select name="birthMonth">' ."\n";
 		for ($i = 1; $i < 13; $i ++){
-			echo '<option value="' .$i .'"';
-			if ($i == $birthMonth){
-				echo " selected ";
+			if ($i == $birthMonth)
+				echo "selected";
 			}
-			echo ">" .$monthNamesET[$i - 1] ."</option> \n";
-		}
+			echo ">" .$monthNamesET[ $i -1 ] ."</option> \n";
+		
 		echo "</select> \n";
+	
 	?>
 	</select>
 	<label>Sünniaasta:</label>
